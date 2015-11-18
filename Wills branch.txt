@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+hello
+=======
 Will added a line
+>>>>>>> refs/remotes/origin/master
