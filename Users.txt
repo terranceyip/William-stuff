@@ -1,4 +1,10 @@
 White
 Jack
 Brown
+<<<<<<< HEAD
+BILLYBOBJOEJR
+
+HI WILLIAM!!!!!
+=======
 HI WILLIAM!!
+>>>>>>> origin/master
