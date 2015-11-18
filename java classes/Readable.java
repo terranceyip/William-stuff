@@ -4,11 +4,11 @@ public class Readable extends Item {
   
   public String getInfo(...) {
     //Returns sNo, Name, Author name, etc in a string
+  }
     
-    @Override
-    public int getPrice(...) {
-      //override
-      //...
-    }
+  @Override
+  public int getPrice(...) {
+    //override
+    //...
   }
 }
