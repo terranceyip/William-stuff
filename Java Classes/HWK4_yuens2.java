@@ -4,3 +4,12 @@
 * Student Number:​[Student number of all group members]
 * Description:​[This is an informative excerpt about this file.]
 */
+
+public class HWK4_yuens2{
+	public static void main (String[] args){
+		UserInterface UI = new UserInterface();
+		
+		while(true)
+			UI.changeCurrentPage();
+	}
+}
