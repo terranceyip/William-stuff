@@ -11,7 +11,6 @@ public class Readable extends Item {
 		authorName = arr[2];
 		price = Integer.parseInt(arr[3]);
 		quantity = Integer.parseInt(arr[4]);
-		type = arr[5];
 	}
 
 	public String getInfo() {

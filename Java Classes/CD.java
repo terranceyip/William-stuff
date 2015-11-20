@@ -2,6 +2,7 @@ public class CD extends Audio {
 
 	public CD(String info) {
 		super(info);
+		type = "CD";
 	}
 
 	@Override
