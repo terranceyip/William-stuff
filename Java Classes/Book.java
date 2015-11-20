@@ -3,6 +3,7 @@ public class Book extends Readable {
 
 	public Book(String info) {
 		super(info);
+		type = "Book";
 	}
 
 	@Override

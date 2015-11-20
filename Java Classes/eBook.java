@@ -2,6 +2,7 @@ public class eBook extends Readable {
 
 	public eBook(String info) {
 		super(info);
+		type = "eBook";
 	}
 
 	@Override
