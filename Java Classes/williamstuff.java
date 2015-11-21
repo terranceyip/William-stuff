@@ -29,6 +29,7 @@ public class williamstuff {
 		} 
 		usernames = text.split("\n");
 	}
+	
 	//CHECK INPUT WITH ARRAY
 	public boolean access (String[] usernames, String input) {
 		String thingy = "";
@@ -39,7 +40,6 @@ public class williamstuff {
 			}
 		}
 		return false;
-		
 	}
 	//SIGN UP TO PUT NAME IN THE TEXT
 	public void putUserName (String input) {
@@ -52,7 +52,6 @@ public class williamstuff {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		
 	}
 	//PUT READABLES AND AUDIO.TXT INTO ARRAY
 	public void getUserName (String filename) {
