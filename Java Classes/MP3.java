@@ -2,6 +2,7 @@ public class MP3 extends Audio {
 
 	public MP3(String info) {
 		super(info);
+		type = "MP3";
 	}
 
 	@Override
