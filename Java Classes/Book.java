@@ -1,5 +1,4 @@
 public class Book extends Readable {
-	//...
 
 	public Book(String info) {
 		super(info);
@@ -8,7 +7,11 @@ public class Book extends Readable {
 
 	@Override
 	public int getPrice() {
-		return (int) (1.02*price);
-		//override to get the item price and add 2% (Environment Tax)
+		return price;
+	}
+	
+	@Override
+	public int getShipping() {
+		return 0;
 	}
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class UserInterface {
 	private Readable[] readables;
 	private Audio[] audioProducts;
-	private int currentPage = 1;;    //the page number (P1..P10)
+	private int currentPage = 1;    //the page number (P1..P10)
 	private Scanner sc = new Scanner(System.in);
 	private ShoppingCart[] users;
 	
@@ -16,9 +16,6 @@ public class UserInterface {
 		getUsers();
 		getReadables();
 		getAudioProducts();
-		showUsers();
-		showReadables();
-		showAudioProducts();
 	}
 
 	public int getCurrentPage() {
@@ -101,14 +98,15 @@ public class UserInterface {
 	}
 	
 	public void showReadables(){
-		for (Readable r: readables)
-			System.out.println(r.getInfo());
+		for (Readable r: readables) {
+			r.printInfo();
+		}
 		//displays all readables for browsing
 	}
 
 	public void showAudioProducts(){
 		for (Audio a: audioProducts)
-			System.out.println(a.getInfo());
+			a.printInfo();
 		//displays all audio products for browsing
 	}
 
@@ -121,16 +119,16 @@ public class UserInterface {
 			currentPage = 3;
 		else if (i == 2)
 			currentPage = 2;
-		else{
+		else {
 			//Invalid input stuff
 		}
 	}
 
 	public void P2(){
 		System.out.println("Choose your username:");
-		String name = sc.nextLine();
+		String name = sc.next();
 		boolean b = check_match(users, name);
-		if (!b){
+		if (!b) {
 			addLine("Users.txt", name);
 			System.out.println("Username successfully added");
 		}
@@ -139,7 +137,7 @@ public class UserInterface {
 
 	public void P3(){
 		System.out.println("Enter your username:");
-		String name = sc.nextLine();
+		String name = sc.next();
 		boolean b = check_match(users, name);
 		if (b){
 			System.out.println("Hello " + name);
@@ -155,9 +153,9 @@ public class UserInterface {
 	}
 
 	public void P5(){
-		System.out.println("1. View Items By Category\n2. View Shoppint Cart\n"
+		System.out.println("1. View Items By Category\n2. View Shopping Cart\n"
 				+ "3. Sign Out\n\nChoose your option:");
-		int i = Integer.parseInt(sc.nextLine());
+		int i = sc.nextInt();
 		if (i == 1)
 			currentPage = 6;
 		else if (i == 2)
@@ -189,11 +187,33 @@ public class UserInterface {
 	}
 
 	public void P8(){
-
+		System.out.println("Readables:\n");
+		System.out.format("%6s%30s%16s%12s%20s%12s%s", "S.No",
+				"Name of Book", "Author", "Price($)", "Quantity in Store", "Type", "\n");
+		showReadables();
+		System.out.println("\nChoose your option:" + "\nPress -1 to return to previous menu.");
+		int i = sc.nextInt();
+		if (i == -1)
+			currentPage = 6;
+		//ADD SOME BUYING STUFF HERE
+		else {
+			//error things here
+		}
 	}
 
 	public void P9(){
-
+		System.out.println("Audio:\n");
+		System.out.format("%6s%30s%16s%12s%20s%12s%s", "S.No",
+				"Name", "Artist", "Price($)", "Quantity in Store", "Type", "\n");
+		showAudioProducts();
+		System.out.println("\nChoose your option:" + "\nPress -1 to return to previous menu.");
+		int i = sc.nextInt();
+		if (i == -1)
+			currentPage = 6;
+		//ADD SOME BUYING STUFF HERE
+		else {
+			//error things here
+		}
 	}
 
 	public void P10(){

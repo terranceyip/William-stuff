@@ -7,7 +7,11 @@ public class CD extends Audio {
 
 	@Override
 	public int getPrice() {
-		return (int) (1.02*price);
-		//override to get the item price and add 2% (Environment Tax)
+		return price;
+	}
+	
+	@Override
+	public int getShipping() {
+		return (int) (0.10*price);
 	}
 }
