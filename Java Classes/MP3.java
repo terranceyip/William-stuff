@@ -8,6 +8,10 @@ public class MP3 extends Audio {
 	@Override
 	public int getPrice() {
 		return price;
-		//override and only call the parent's getPrice() to get the base price
+	}
+	
+	@Override
+	public int getShipping() {
+		return (int) (0.10*price);
 	}
 }

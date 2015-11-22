@@ -2,6 +2,7 @@ public abstract class Item {
 
 	public abstract String getInfo();
 	public abstract int getPrice();
+	public abstract int getShipping();
 
 	protected int price;
 	protected int sNo;
