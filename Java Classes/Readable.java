@@ -14,11 +14,19 @@ public class Readable extends Item {
 	}
 
 	public String getInfo() {
-		return info;
+		return (sNo + ".\t" + name + "\t" + authorName + "\t" + price + "\t" + quantity + "\t" + type);
+	}
+	
+	public void printInfo() {
+		System.out.format("%6s%30s%16s%12d%20d%12s%s", sNo + ".", name, authorName, price, quantity, type, "\n");
 	}
 
 	@Override
 	public int getPrice() {
 		return price;
+	}
+
+	public int getShipping() {
+		return 0;
 	}
 }
