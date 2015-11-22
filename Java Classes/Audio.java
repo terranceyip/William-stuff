@@ -14,11 +14,19 @@ public class Audio extends Item {
 	}
 	
 	public String getInfo() {
-		return info;		//returns sNo, name, Artist name, etc in a string
+		return (sNo + "\t" + name + "\t" + artistName + "\t" + price + "\t" + quantity + "\t" + type);
+	}
+	
+	public void printInfo() {
+		System.out.format("%6s%30s%16s%12d%20d%12s%s", sNo, name, artistName, price, quantity, type, "\n");
 	}
 
 	@Override
 	public int getPrice() {
 		return price;
+	}
+	
+	public int getShipping() {
+		return 0;
 	}
 }
