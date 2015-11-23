@@ -31,19 +31,26 @@ public class ShoppingCart extends User {
 		String filename = "Cart_" + username + ".txt";
 		boolean doesExist = false;
 		String[] s = getFile(filename);
-		for (int i = 0; i < s.length; i++){
-			if(s[i].matches(sNo + ", .*")){
-				doesExist = true;
-				String[] temp = s[i].split(", ");
-				int q = Integer.parseInt(temp[3]) + quantity;
-				s[i].replace(", " + temp[3],", " + q);
+		if (s != null){
+			for (int i = 0; i < s.length; i++){
+				if(s[i].matches(sNo + ", .*")){
+					doesExist = true;
+					String[] temp = s[i].split(", ");
+					int q = Integer.parseInt(temp[3]) + quantity;
+					temp[3] = q + "";
+					s[i] = temp[0] + ", " + temp[1] + ", " + temp[2] + ", " + temp[3];
+				}
 			}
 		}
-		if (!doesExist){
-			addLine(filename, sNo + ", " + name + ", " + sDate + ", " + quantity);
+		if (doesExist)
+			setFile(filename, s);
+		else{
+			addLine(filename, sNo + ", " + name + ", " + sDate + ", " + quantity, s != null);
 		}
-		setFile(filename, s);
 		content = getFile(filename);
+		String[] S = getFile(filename);
+		for (String ss : S)
+			System.out.println(ss);
 	}
 	
 	public String[] getFile(String filename){
@@ -52,6 +59,8 @@ public class ShoppingCart extends User {
 		try {
 			in = new BufferedReader(new FileReader(filename));
 			String textbuffer = in.readLine();
+			if (textbuffer == null)
+				return null;
 			text = text.concat(textbuffer);
 			while ((textbuffer = in.readLine()) != null) {
 				text = text.concat("\n" + textbuffer);
@@ -64,12 +73,13 @@ public class ShoppingCart extends User {
 		return text.split("\n");
 	}
 	
-	public void addLine (String filename, String input) {
+	public void addLine (String filename, String input, boolean start) {
 		BufferedWriter out;
 		try {
 			out = new BufferedWriter(new FileWriter(filename, true));
-			out.newLine();
-			out.append(input);
+			if (start)
+				out.newLine();
+			out.write(input);
 			out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

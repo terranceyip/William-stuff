@@ -208,11 +208,13 @@ public class UserInterface {
 
 	public void P7(){
 		String[] s = getFile("Cart_" + currentUser.getUsername() + ".txt");
-		if (s != null){
+		if (s[0].equals(""))
+			System.out.println("There is nothing in your cart\n");
+		else if (s != null){
 			for (String str: s)
 				System.out.println(str);
 		}
-		currentPage = 6;
+		currentPage = 5;
 	}
 
 	public void P8(){
@@ -367,7 +369,8 @@ public class UserInterface {
 		try {
 			in = new BufferedReader(new FileReader(filename));
 			String textbuffer = in.readLine();
-			text = text.concat(textbuffer);
+			if (textbuffer != null)
+				text = text.concat(textbuffer);
 			while ((textbuffer = in.readLine()) != null) {
 				text = text.concat("\n" + textbuffer);
 			}
