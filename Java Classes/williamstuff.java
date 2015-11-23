@@ -1,14 +1,62 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class williamstuff {
-	
+
 	private String[] usernames;
+
+	public static void main (String args[]) {
+		sortByPrice("CDs.txt");
+	}
+
+	public static void sortByPrice(String filename){
+		String[] s = getFile(filename);
+		String[][] ss = new String [s.length][];
+		for (int i = 0; i<s.length; i++){
+			ss[i] = s[i].split(", ");
+		}
+		Arrays.sort(ss, new Comparator<String[]>(){
+			public int compare(String[] entry1, String[] entry2) {
+				int price1 = Integer.parseInt(entry1[3]);
+				int price2 = Integer.parseInt(entry2[3]);
+				if(price1 > price2)
+					return 1;
+				else 
+					return -1;
+			}
+		});
+		for (int i = 0; i < ss.length; i++){
+			s[i] = ss[i][0] + ", " + ss[i][1] + ", " + ss[i][2] + ", " + ss[i][3] + ", " + ss[i][4];
+		}
+		setFile(filename, s);
+	}
+
+	public static void sortByName(String filename){
+		String[] s = getFile(filename);
+		String[][] ss = new String [s.length][];
+		for (int i = 0; i<s.length; i++){
+			ss[i] = s[i].split(", ");
+		}
+		Arrays.sort(ss, new Comparator<String[]>(){
+			public int compare(String[] entry1, String[] entry2) {
+				String title1 = entry1[1];
+				String title2 = entry2[1];
+				return title1.compareTo(title2);
+			}
+		});
+		for (int i = 0; i < ss.length; i++){
+			s[i] = ss[i][0] + ", " + ss[i][1] + ", " + ss[i][2] + ", " + ss[i][3] + ", " + ss[i][4];
+		}
+		setFile(filename, s);
+	}
+
+
+
 	//PUT USERS.TXT INTO ARRAY AND SPLIT
 	public void getUserName () {
 		BufferedReader in;
@@ -29,7 +77,7 @@ public class williamstuff {
 		} 
 		usernames = text.split("\n");
 	}
-	
+
 	//CHECK INPUT WITH ARRAY
 	public boolean access (String[] usernames, String input) {
 		String thingy = "";
@@ -72,10 +120,40 @@ public class williamstuff {
 			e.printStackTrace();
 		} 
 	}
-	
-	public static void main (String args[]) {
-		// SIGN IN
-		String consoleInput = "WILLIAM";
-		
+
+
+	public static String[] getFile(String filename){
+		BufferedReader in;
+		String text = "";
+		try {
+			in = new BufferedReader(new FileReader(filename));
+			String textbuffer = in.readLine();
+			text = text.concat(textbuffer);
+			while ((textbuffer = in.readLine()) != null) {
+				text = text.concat("\n" + textbuffer);
+			}
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return text.split("\n");
+	}
+
+	public static void setFile(String filename, String[] s){
+		int size = s.length;
+		BufferedWriter out;
+		try {
+			out = new BufferedWriter(new FileWriter(filename));
+			for (int i = 0; i < size-1; i++){
+				out.write(s[i]);
+				out.newLine();
+			}
+			out.write(s[size-1]);
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
