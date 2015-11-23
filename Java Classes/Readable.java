@@ -1,10 +1,8 @@
 public class Readable extends Item {
 
 	protected String authorName;
-	protected String info;
 	
 	public Readable(String info) {
-		this.info = info;
 		String[] arr = info.split(", ");	//arr holds array of strings containing sNo, Name, etc.
 		sNo = Integer.parseInt(arr[0]);
 		name = arr[1];
@@ -14,7 +12,7 @@ public class Readable extends Item {
 	}
 
 	public String getInfo() {
-		return (sNo + ".\t" + name + "\t" + authorName + "\t" + price + "\t" + quantity + "\t" + type);
+		return (sNo + ", " + name + ", " + authorName + ", " + price + ", " + quantity + ", " + type);
 	}
 	
 	public void printInfo() {
@@ -28,5 +26,25 @@ public class Readable extends Item {
 
 	public int getShipping() {
 		return 0;
+	}
+	
+	public int getSNo(){
+		return sNo;
+	}
+	
+	public int getQuantity(){
+		return quantity;
+	}
+
+	public void subtractQuantity(int i){
+		quantity -= i;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public String getType(){
+		return type;
 	}
 }
