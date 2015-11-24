@@ -74,6 +74,9 @@ public class UserInterface {
 		case 12:
 			P12();
 			break;
+		case 13:
+			P13();
+			break;
 		}
 		return 0;
 	}
@@ -195,9 +198,9 @@ public class UserInterface {
 	}
 
 	public void P5(){			//Method for page 5
-		if(isAdmin){
+		if(isAdmin) {			//if user is Admin
 			System.out.println("1. View Items By Category\n2. View Shopping Cart\n"
-					+ "3. Sign Out\n4. Change Password\n\nChoose your option:");
+					+ "3. Sign Out\n4. Change Password\n5. View Previous Orders\n\nChoose your option:");
 			int i = sc.nextInt();
 			if (i == 1)
 				currentPage = 6;
@@ -205,30 +208,32 @@ public class UserInterface {
 				currentPage = 7;
 			else if (i == 3)
 				currentPage = 1;
-			else if (i == 4){
+			else if (i == 5)
+				currentPage = 13;
+			else if (i == 4) {
 				System.out.println("Enter your new password:");
 				String pw = sc.next();
 				for (int j = 0; j < users.length; j++){
-					if(users[j].getUsername().equals("ADMIN")){
-						users[j].setPassword(pw);
+					if(users[j].getUsername().equals("ADMIN")) {	//find ADMIN in users,
+						users[j].setPassword(pw);					//then set password to the password user inputs.
 						String[] s = getFile("Users.txt");
-						for (int k = 0; k < s.length; k++){
-							if (s[k].matches("ADMIN, .*"))
+						for (int k = 0; k < s.length; k++) {
+							if (s[k].matches("ADMIN, .*"))			//changes Admin password in Users.txt
 								s[k] = "ADMIN, " + pw;
 						}
 						setFile("Users.txt", s);
 					}
 				}
-				System.out.println("You're password has be changed");
+				System.out.println("Your password has been changed.");
 				currentPage = 5;
 			}
-			else{
+			else {
 
 			}
 		}
-		else{
+		else {		//if user is not Admin,
 			System.out.println("1. View Items By Category\n2. View Shopping Cart\n"
-					+ "3. Sign Out\n\nChoose your option:");
+					+ "3. Sign Out\n4. View Previous Orders\n\nChoose your option:");
 			int i = sc.nextInt();		//scanner to interpret user input
 			if (i == 1)
 				currentPage = 6;		//if user inputs 1, changes current page to 6
@@ -236,6 +241,8 @@ public class UserInterface {
 				currentPage = 7;		//if user inputs 2, changes current page to 7
 			else if (i == 3)
 				currentPage = 1;		//if user inputs 3, changes current page to 1
+			else if (i == 4)
+				currentPage = 13;
 			else {						//if user does not input 1, 2, or 3,
 				System.out.println("Invalid input.\n");		//prints "Invalid input"
 				currentPage = 5;		//refreshes the current page (page 5)
@@ -245,7 +252,7 @@ public class UserInterface {
 
 	public void P6(){			//Method for page 6
 
-		if (isAdmin){
+		if (isAdmin) {			//if user is Admin,
 			System.out.println("1. Readables\n2. Audio\n3. Sort Items\n4. Add Item\n\nChoose your option\n\n"
 					+ "Press -1 to return to the previous menu");
 			int i = sc.nextInt();		//scanner to interpret user input
@@ -263,11 +270,9 @@ public class UserInterface {
 				System.out.println("Invalid input.\n");		//prints "Invalid input"
 				currentPage = 6;		//refreshes the current page (page 6)
 			}
-			//SORT TO PAGE 11, ADD TO PAGE 12
-			/**************ADD PAGE CHANGES OIAESHFOIA;WEJRHOAIWERH*************/
 		}
 
-		else{
+		else {				//if user is not Admin,
 			System.out.println("1. Readables\n2. Audio\n\nChoose your option\n\n"
 					+ "Press -1 to return to the previous menu");
 			int i = sc.nextInt();		//scanner to interpret user input
@@ -277,7 +282,7 @@ public class UserInterface {
 				currentPage = 9;		//if user inputs 2, changes current page to 9
 			else if (i == -1)
 				currentPage = 5;		//if user inputs -1, changes current page to 5 (back to previous menu)
-			else{						//if user does not input 1, 2, or -1,
+			else {						//if user does not input 1, 2, or -1,
 				System.out.println("Invalid input.\n");		//prints "Invalid input"
 				currentPage = 6;		//refreshes the current page (page 6)
 			}
@@ -419,13 +424,16 @@ public class UserInterface {
 			//prints bill.
 			System.out.println("Billing Information:");
 			System.out.format("%40s%8s%20s%15s", "Name", "", "Quantity", "Price\n\n");
+			String m = "";									//m = holds names of products for ItemsBought.txt
 			String[] contents = currentUser.getContent();	//contents = shopping cart contents of the current user
 			for (int i = 0; i < contents.length; i++) {
 				String line = contents[i];					//line = current item being looked at
-				String[] arr = line.split(", ");
-				System.out.format("%40s%8s%20s%15s", arr[1], "", arr[3], items[i][2]+"\n");	//prints Name, Quantity, and Price
+				String[] arr = line.split(", ");			//arr = array that holds information about current item
+				m = m.concat(arr[1] + "\t");				//adds product name to m
+				System.out.format("%40s%8s%20s%15s", arr[1], "", arr[3], items[i][2]+"\n");	//prints Name, Quantity, and Price			
 			}
-			int total = (int) (totalCost*1.13 + shippingCost + envTaxCost);
+			m = m.substring(0,(m.length()-1));				//deletes the extra ", " at the end of m
+			int total = (int) (totalCost*1.13 + shippingCost + envTaxCost);		//calculates total cost
 			System.out.println("\n");
 			System.out.format("%40s%8s%20s%15s", "Environment Tax", "2%", "", envTaxCost + "\n");	//prints Environment Tax
 			System.out.format("%40s%8s%20s%15s", "HST", "13%", "", (int) (totalCost*0.13) + "\n\n");	//prints HST
@@ -434,41 +442,45 @@ public class UserInterface {
 			System.out.format("%40s%8s%20s%15s", "Total:", "", "", total + "\n\n");	//prints the total
 			System.out.println("Are you sure you want to pay? yes or no. ");	//asks user for confirmation on purchases
 			String yes = sc.next();		//scanner to interpret user input
-
+			
 			if (yes.equalsIgnoreCase("yes")) {	//if user inputs yes (ignores case sensitivity)
 				//Get unique ID
 				String[] id = getFile("ItemsBought.txt");
 				String currentID = null;
-				if (id == null){
-					currentID = "U1000";
-					writeLine("ItemsBought.txt", currentID);
+				if (id == null) {				//if there have been no previous purchases,
+					currentID = "U1000";		//sets the ID to "U1000"
+					String n = currentID + ", " + m + ", " + total+"\n";	//n = the information line that will be saved into ItemsBought.txt
+					writeLine("ItemsBought.txt",currentUser.getUsername());	//writes the username into ItemsBought.txt,
+					addLine("ItemsBought.txt", n);							//followed by the information line.
 				}
-				else{
-					currentID = "U" + (1000 + id.length);
-					addLine("ItemsBought.txt", currentID);
-				}
+				else {			//if there have been previous purchases,
+					currentID = "U" + (1000 + id.length);			//sets a unique confirmation ID
+					String n = currentID + ", " + m + ", " + total + "\n";	//n = information line about purchase
+					addLine("ItemsBought.txt",currentUser.getUsername());	//adds the username to ItemsBought.txt,
+					addLine("ItemsBought.txt",n);							//followed by the information line.
+					}
 				System.out.println("\nConfirmation ID: " + currentID);	//prints the confirmation ID
-				System.out.println("Items Shipped to: " + currentUser.getUsername());	//prints who the items have been shipped to
-
+				System.out.println("Items Shipped to: " + currentUser.getUsername());	//prints who the items have been shipped to.
+				
 				//set quantities in arrays
 				for (int i = 0; i < s.length; i++){
 					for (int j = 0; j < readables.length; j++){
 						if (items[i][0] == readables[j].getSNo()){			//if the sNo matches sNo of a readable,
-							readables[j].subtractQuantity(items[i][1]);
+							readables[j].subtractQuantity(items[i][1]);		//subtracts the quantity from that item.
 						}
-						else if (items[i][0] == audioProducts[j].getSNo()){
-							audioProducts[j].subtractQuantity(items[i][1]);
+						else if (items[i][0] == audioProducts[j].getSNo()){	//if sNo matches sNo of an audio product,
+							audioProducts[j].subtractQuantity(items[i][1]);	//subtracts the quantity from that item.
 						}
 					}
 				}
 
-				//set quantities in files
+				//sets the new quantities in files
 				setFileByType("CDs.txt", audioProducts, "CD");
 				setFileByType("MP3.txt", audioProducts, "MP3");
 				setFileByType("Ebooks.txt", readables, "eBook");
 				setFileByType("Books.txt", readables, "Book");
 
-				// removes current user's shopping cart
+				//removes current user's shopping cart after purchase
 				BufferedWriter out;
 				try {
 					out = new BufferedWriter(new FileWriter("Cart_" + currentUser.getUsername() + ".txt"));
@@ -485,25 +497,26 @@ public class UserInterface {
 		}
 	}
 
-	//sorting page
+	//sorting page for admin
 	public void P11(){
 		System.out.println("1. Sort items by price\n2. Sort items by name\n\n"
 				+ "Choose your option\n\nPress -1 to return to the previous menu");
 		int i = sc.nextInt();
 		if (i == 1)
-			sortByPrice();
+			sortByPrice();	//runs method to sort by Price
 		else if (i == 2)
-			sortByName();
+			sortByName();	//runs method to sort by Name
 		else if (i == -1)
 			currentPage = 6;
-		else{
-			//error things
+		else {
+			System.out.println("Invalid Input.\n");
+			currentPage = 11;
 		}
 	}
 
-	//adding page
+	//adding page for admin
 	public void P12(){
-		String file = null;
+		String file = null;	//sets variables to be used
 		String sNo = null;
 		String name = null;
 		String person = null;
@@ -516,88 +529,126 @@ public class UserInterface {
 		if (i == -1)
 			currentPage = 6;
 		else if (i == 1)
-			file = "CDs.txt";
+			file = "CDs.txt";	//if user inputs 1, sets file to CDs.txt
 		else if (i == 2)
-			file = "MP3.txt";
+			file = "MP3.txt";	//if user inputs 2, sets file to MP3.txt
 		else if (i == 3)
 			file = "Books.txt";
 		else if (i == 4)
 			file = "Ebooks.txt";
 		else{
-			//ERROR CRAP
+			System.out.println("Invalid input.\n");
+			currentPage = 12;
 		}
 		boolean flag = true;
-		do{
+		do {	//do at least once
 			System.out.println("Enter the sNo: ");
 			sNo = sc.next();
-			flag = !checkSNo(sNo);
-			if (flag)
-				System.out.println("sNo already exists. Try again.");
-		} while (flag);
-		System.out.println("Enter the title:");
-		name = sc.next();
+			flag = !checkSNo(sNo);	//uses method checkSNo to check if sNo already exists
+			if (flag)		//if sNo already exists, asks user to try again
+				System.out.println("sNo already exists. Try again.\n");
+		} while (flag);		//when sNo successfully selected,
+		System.out.println("Enter the title: ");	//asks user for title input
+		name = sc.next();	//sets name as the title input
 		if (i == 1 || i == 2)
-			System.out.println("Enter the artist:");
+			System.out.println("Enter the artist: ");	//if audio product, asks user for name of artist
 		else
-			System.out.println("Enter the author:");
-		person = sc.next();
-		System.out.println("Enter the price:");
-		price = sc.next();
-		System.out.println("Enter the quantity");
-		quantity = sc.next();
-		String s = sNo + ", " + name + ", " + person + ", " + price + ", " + quantity;
-		addLine(file, s);
-		getReadables();
-		getAudioProducts();
-		System.out.println("Item has been added");
-		currentPage = 6;
+			System.out.println("Enter the author: ");	//if readable, asks user for name of author
+		person = sc.next();								//sets person as the artist/author
+		System.out.println("Enter the price: ");		//asks user for price of item
+		price = sc.next();								//sets price as user input for price
+		System.out.println("Enter the quantity: ");		//asks user for quantity of items
+		quantity = sc.next();							//sets quantity as user input for quantity of items
+		String s = sNo + ", " + name + ", " + person + ", " + price + ", " + quantity;	//formats string to be put into file
+		addLine(file, s);	//adds the line to the corresponding file
+		getReadables();		//refreshes the readables array
+		getAudioProducts();	//refreshes the audioproducts array
+		System.out.println("Item has been added.");		//tells user item as been added
+		currentPage = 6;	//goes back to previous menu
+	}
+	
+	public void P13() {		//page bonus 1, ItemsBought.txt
+		if (search(currentUser.getUsername())) {	//if username exists in ItemsBought.txt
+			System.out.format("%20s%40s%10s", "Confirmation ID", "Product Name", "Total\n");	//prints the header
+			String[] itemsbought = getFile("ItemsBought.txt");		//gets ItemsBought.txt file
+			for (int i = 0; i < itemsbought.length; i++) {			//for each line in ItemsBought.txt
+				if (itemsbought[i].equals(currentUser.getUsername())) {	//if current line matches the username
+					String[] itemsline = itemsbought[i+1].split(", ");	//itemsline holds specific info for each purchase
+					String[] names = itemsline[1].split("\t");			//holds each product name individually in an array
+					if (names.length == 1) {							//if there is only one product,
+						System.out.format("%20s%40s%10s", itemsline[0], itemsline[1], itemsline[2]+"\n"); //prints purchase info format for 1 product
+					}
+					else {		//if there is more than one product,
+						System.out.format("%20s%40s%10s", itemsline[0], names[0], "\n"); //prints format for first product
+						for (int j = 1; j <= names.length-2; j++) {
+							System.out.format("%20s%40s%10s", "", names[j], "\n"); //prints format for in between products
+						}
+						System.out.format("%20s%40s%10s", "", names[names.length-1], itemsline[2]+"\n"); //prints format for last product
+					}
+				}
+			}
+			System.out.println("\nPress -1 to return to previous menu.");	//after finished printing, allows user to return to previous menu
+			int i = sc.nextInt();
+			if (i == -1)
+				currentPage = 5;
+			else {				//if invalid input, refreshes page
+				System.out.println("Invalid input.\n");
+				currentPage = 13;
+			}
+		}
+		else {		//if username does not exist in ItemsBought.txt, tells user they have not purchased anything yet.
+			System.out.println("You have not purchased anything yet.\n\nPress -1 to return to the previous menu.");
+			int i = sc.nextInt();
+			if (i == -1)			//allows user to return to previous menu
+				currentPage = 5;
+			else {					//if user inputs invalid input, refreshes page
+				System.out.println("Invalid input.\n");
+				currentPage = 13;
+			}
+		}
 	}
 
-	private boolean checkSNo(String sNo) {
+	private boolean checkSNo(String sNo) {		//used to check serial number
 		boolean flag = true;
 		for (Readable r: readables){
-			if (Integer.parseInt(sNo) == r.getSNo())
+			if (Integer.parseInt(sNo) == r.getSNo())	//if serial number exists in readables, set flag to false
 				flag = false;
 		}
-		for (Audio a: audioProducts){
+		for (Audio a: audioProducts){					//if serial number exists in audioProducts, set flag to false
 			if (Integer.parseInt(sNo) == a.getSNo())
 				flag = false;
 		}
-		return flag;
+		return flag;				//returns the flag
 	}
 
-	//checks input against registered users
-	public ShoppingCart checkUser(ShoppingCart[] arr, String input){
+	public ShoppingCart checkUser(ShoppingCart[] arr, String input){	//checks input against registered users
 		for (int i = 0; i < arr.length; i++) {
-			if (input.equals(arr[i].getUsername()))
+			if (input.equals(arr[i].getUsername()))		//if user exists already, return something
 				return arr[i];
 		}
-		return null;
+		return null;									//if user does not exist already, return null
 	}
 
-	//check sNO against items in array
-	public Item checkItem(Item[] arr, int sNo){
+	public Item checkItem(Item[] arr, int sNo){	//check sNo against items in array
 		for (int i = 0; i < arr.length; i++) {
 			if (sNo == (arr[i].getSNo()))
-				return arr[i];
+				return arr[i];					//if sNo exists, return something
 		}
-		return null;
+		return null;							//else, return null
 	}
 	
-	//start a file with input
-	public void writeLine (String filename, String input) {
+	public void writeLine (String filename, String input) {	//start a file with input
 		BufferedWriter out;
 		try {
 			out = new BufferedWriter(new FileWriter(filename, true));
 			out.write(input);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
-	//add add a new line containing input
-	public void addLine (String filename, String input) {
+	
+	public void addLine (String filename, String input) {	//add a new line to a file, where input is the new line to be added
 		BufferedWriter out;
 		try {
 			out = new BufferedWriter(new FileWriter(filename, true));
@@ -605,19 +656,17 @@ public class UserInterface {
 			out.append(input);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
 
-	//returns an array of strings holding each line of a file
-	public static String[] getFile(String filename){
+	public static String[] getFile(String filename) {	//returns an array of strings holding each line of a file
 		BufferedReader in;
 		String text = "";
 		try {
 			in = new BufferedReader(new FileReader(filename));
-			String textbuffer = in.readLine();
-			if (textbuffer == null) // if file is empty, return null
+			String textbuffer = in.readLine();			//reads line
+			if (textbuffer == null) 					//if file is empty, return null
 				return null;
 			text = text.concat(textbuffer);
 			while ((textbuffer = in.readLine()) != null) {
@@ -625,7 +674,6 @@ public class UserInterface {
 			}
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		return text.split("\n");
@@ -647,7 +695,6 @@ public class UserInterface {
 			out.write(text);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -665,23 +712,21 @@ public class UserInterface {
 			out.write(s[size-1]);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	//setup shopping cart after relogging in
 	public ShoppingCart setupUser (ShoppingCart user) {
-		String cartName = "Cart_"+user.getUsername()+".txt";
+		String cartName = "Cart_"+user.getUsername()+".txt";	//gets the name of the cart txt file
 		File f = new File(cartName);
-		if (f.exists()) { //if file exists, add items to shoppingCart
+		if (f.exists()) { 					//if file exists, add items to shoppingCart
 			user.setContents(getFile("Cart_"+user.getUsername()+".txt"));
 		}
 		else { //make a new file
 			try {
 				f.createNewFile();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -689,6 +734,7 @@ public class UserInterface {
 		return user;
 	}
 
+	//gets all info of all items
 	public static String[][] getAllInfo(){
 		String[] cd = getFile("CDs.txt");
 		String[] mp3 = getFile("MP3.txt");
@@ -711,6 +757,7 @@ public class UserInterface {
 		return allInfo;
 	}
 
+	//sorting method to sort items by price
 	public static void sortByPrice(){
 		String[][] ss = getAllInfo();
 		String[] s = new String[ss.length];
@@ -733,7 +780,8 @@ public class UserInterface {
 			System.out.println(st);
 		System.out.println();
 	}
-
+	
+	//sorting method to sort items by name
 	public static void sortByName(){
 		String[][] ss = getAllInfo();
 		String[] s = new String[ss.length];
@@ -752,5 +800,15 @@ public class UserInterface {
 		for (String st: s)
 			System.out.println(st);
 		System.out.println();
+	}
+	
+	public boolean search(String currentUser) {		//searches ItemsBought.txt if user already exists or not
+		String[] h = getFile("ItemsBought.txt");
+		for (int i = 0; i < h.length; i++) { 
+			if (h[i].equals(currentUser)) {			//if a line matching the username, is found, return true
+				return true;				
+			}
+		}
+		return false;			//otherwise, return false
 	}
 }
