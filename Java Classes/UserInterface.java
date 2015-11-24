@@ -211,10 +211,10 @@ public class UserInterface {
 				for (int j = 0; j < users.length; j++){
 					if(users[j].getUsername().equals("ADMIN")){
 						users[j].setPassword(pw);
-						String[] s = getFile("Users");
+						String[] s = getFile("Users.txt");
 						for (int k = 0; k < s.length; k++){
-							if (s[i].matches("ADMIN, .*"))
-								s[i] = "ADMIN, " + pw;
+							if (s[k].matches("ADMIN, .*"))
+								s[k] = "ADMIN, " + pw;
 						}
 						setFile("Users.txt", s);
 					}
@@ -246,7 +246,7 @@ public class UserInterface {
 	public void P6(){			//Method for page 6
 
 		if (isAdmin){
-			System.out.println("1. Readables\n2. Audio\n3. Sort Items\n 4. Add Item\n\nChoose your option\n\n"
+			System.out.println("1. Readables\n2. Audio\n3. Sort Items\n4. Add Item\n\nChoose your option\n\n"
 					+ "Press -1 to return to the previous menu");
 			int i = sc.nextInt();		//scanner to interpret user input
 			if (i == 1)
@@ -520,9 +520,9 @@ public class UserInterface {
 		else if (i == 2)
 			file = "MP3.txt";
 		else if (i == 3)
-			file = "Book.txt";
+			file = "Books.txt";
 		else if (i == 4)
-			file = "Ebook.txt";
+			file = "Ebooks.txt";
 		else{
 			//ERROR CRAP
 		}
@@ -547,6 +547,8 @@ public class UserInterface {
 		quantity = sc.next();
 		String s = sNo + ", " + name + ", " + person + ", " + price + ", " + quantity;
 		addLine(file, s);
+		getReadables();
+		getAudioProducts();
 		System.out.println("Item has been added");
 		currentPage = 6;
 	}
