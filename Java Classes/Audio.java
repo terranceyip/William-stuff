@@ -1,3 +1,10 @@
+/*
+ * Name: Terrance Yip, Susan Yuen, William Tran
+ * MacID: yipsh, yuens2, tranwt
+ * Student Number: 1415472, 1416198, 1407613
+ * Description: Outline for audio objects.
+ */
+
 public class Audio extends Item {
 
 	protected String artistName;
@@ -12,7 +19,7 @@ public class Audio extends Item {
 	}
 	
 	public String getInfo() {
-		return (sNo + ", " + name + ", " + artistName + ", " + price + ", " + quantity + ", " + type);
+		return (sNo + ", " + name + ", " + artistName + ", " + price + ", " + quantity);
 	}
 	
 	public void printInfo() {
@@ -25,6 +32,10 @@ public class Audio extends Item {
 	}
 	
 	public int getShipping() {
+		return 0;
+	}
+	
+	public int getEnvTax(){
 		return 0;
 	}
 

@@ -1,3 +1,10 @@
+/*
+ * Name: Terrance Yip, Susan Yuen, William Tran
+ * MacID: yipsh, yuens2, tranwt
+ * Student Number: 1415472, 1416198, 1407613
+ * Description: Holds methods for the shopping cart.
+ */
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -25,15 +32,17 @@ public class ShoppingCart extends User {
 	}
 
 	public void addItem(int sNo, String name, int quantity, int price, int shipping) {
+		//get date
 		DateFormat df = new SimpleDateFormat("dd/MM/yyy");
 		Date date = new Date();
 		String sDate = df.format(date);
+		
 		String filename = "Cart_" + username + ".txt";
 		boolean doesExist = false;
 		String[] s = getFile(filename);
-		if (s != null){
+		if (s != null){ //if file is not empty
 			for (int i = 0; i < s.length; i++){
-				if(s[i].matches(sNo + ", .*")){
+				if(s[i].matches(sNo + ", .*")){ //if the item is already in the cart, only change the quantity
 					doesExist = true;
 					String[] temp = s[i].split(", ");
 					int q = Integer.parseInt(temp[3]) + quantity;
@@ -42,17 +51,15 @@ public class ShoppingCart extends User {
 				}
 			}
 		}
-		if (doesExist)
+		if (doesExist) //rewrite file
 			setFile(filename, s);
-		else{
+		else{ //append new item
 			addLine(filename, sNo + ", " + name + ", " + sDate + ", " + quantity, s != null);
 		}
 		content = getFile(filename);
-		String[] S = getFile(filename);
-		for (String ss : S)
-			System.out.println(ss);
 	}
 	
+	//returns an array of strings holding each line of a file
 	public String[] getFile(String filename){
 		BufferedReader in;
 		String text = "";
@@ -67,12 +74,12 @@ public class ShoppingCart extends User {
 			}
 			in.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		return text.split("\n");
 	}
 	
+	//add add a new line containing input
 	public void addLine (String filename, String input, boolean start) {
 		BufferedWriter out;
 		try {
@@ -82,11 +89,11 @@ public class ShoppingCart extends User {
 			out.write(input);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
 	
+	//rewrite a file given an array of strings
 	public static void setFile(String filename, String[] s){
 		int size = s.length;
 		BufferedWriter out;
@@ -99,7 +106,6 @@ public class ShoppingCart extends User {
 			out.write(s[size-1]);
 			out.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

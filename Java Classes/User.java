@@ -1,3 +1,10 @@
+/*
+ * Name: Terrance Yip, Susan Yuen, William Tran
+ * MacID: yipsh, yuens2, tranwt
+ * Student Number: 1415472, 1416198, 1407613
+ * Description: Holds methods for username and admin.
+ */
+
 public class User {
 	
 	protected String username;
@@ -5,10 +12,10 @@ public class User {
 	
 	public User(String name){
 		username = name;
-		if (name.matches("^(Admin, ).*")){
+		if (name.matches("ADMIN, .*")){
 			String[] s = name.split(", ");
-			s[0] = username;
-			s[1] = password;
+			username = s[0];
+			password = s[0];
 		}
 	}
 	
