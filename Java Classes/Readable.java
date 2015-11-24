@@ -1,3 +1,10 @@
+/*
+ * Name: Terrance Yip, Susan Yuen, William Tran
+ * MacID: yipsh, yuens2, tranwt
+ * Student Number: 1415472, 1416198, 1407613
+ * Description: Outline for Readable objects.
+ */
+
 public class Readable extends Item {
 
 	protected String authorName;
@@ -12,7 +19,7 @@ public class Readable extends Item {
 	}
 
 	public String getInfo() {
-		return (sNo + ", " + name + ", " + authorName + ", " + price + ", " + quantity + ", " + type);
+		return (sNo + ", " + name + ", " + authorName + ", " + price + ", " + quantity);
 	}
 	
 	public void printInfo() {
@@ -25,6 +32,10 @@ public class Readable extends Item {
 	}
 
 	public int getShipping() {
+		return 0;
+	}
+
+	public int getEnvTax(){
 		return 0;
 	}
 	
