@@ -15,7 +15,7 @@ public class User {
 		if (name.matches("ADMIN, .*")){
 			String[] s = name.split(", ");
 			username = s[0];
-			password = s[0];
+			password = s[1];
 		}
 	}
 	
